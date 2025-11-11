@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Solo Level-Up Fitness</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Header / Navbar -->
+  <header>
+    <div class="logo">💪 Solo Level-Up Fitness</div>
+    <nav>
+      <a href="#features">Features</a>
+      <button class="auth-btn" id="login-btn">Login</button>
+      <button class="auth-btn" id="signup-btn">Sign Up</button>
+    </nav>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <h1>Train Hard. Level Up. Become the Strongest Hunter.</h1>
+    <p>Set your goals, track your progress, and unlock your true potential!</p>
+    <button class="cta-btn" id="get-started">Get Started</button>
+  </section>
+
+  <!-- Features Section -->
+  <section class="features" id="features">
+    <h2>Features</h2>
+    <div class="feature-cards">
+      <div class="feature-card">
+        <h3>Set Goals</h3>
+        <p>Create challenges like pushups, squats, and crunches.</p>
+      </div>
+      <div class="feature-card">
+        <h3>Track Progress</h3>
+        <p>Visual progress bars and level-up animations.</p>
+      </div>
+      <div class="feature-card">
+        <h3>Dashboard</h3>
+        <p>Manage your workouts and goals like a true hunter.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Login/Register Modal -->
+  <div id="auth-modal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+
+      <!-- Login Form -->
+      <div id="login-form">
+        <h2>Login</h2>
+        <input type="email" id="login-email" placeholder="Email">
+        <input type="password" id="login-password" placeholder="Password">
+        <button id="login-submit" class="cta-btn">Login</button>
+      </div>
+
+      <!-- Register Form -->
+      <div id="register-form" style="display:none;">
+        <h2>Sign Up</h2>
+        <input type="text" id="reg-username" placeholder="Username">
+        <input type="email" id="reg-email" placeholder="Email">
+        <input type="password" id="reg-password" placeholder="Password">
+        <button id="register-submit" class="cta-btn">Sign Up</button>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <p>⚔️ Inspired by Solo Leveling | Created by Shreyash Deore ⚔️</p>
+  </footer>
+
+  <script src="script.js"></script>
+  
+</body>
+</html>

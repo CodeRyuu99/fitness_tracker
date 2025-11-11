@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Daily Progress</title>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #010a1b;
+      color: #cce8ff;
+      text-align: center;
+      padding: 40px;
+    }
+    table {
+      width: 90%;
+      margin: auto;
+      border-collapse: collapse;
+      background: rgba(0, 20, 50, 0.8);
+      box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+    }
+    th, td {
+      border: 1px solid #00ffff;
+      padding: 10px;
+      color: #aef;
+    }
+    th {
+      background: #022a44;
+      color: #00ffff;
+    }
+    h1 {
+      color: #00ffff;
+      margin-bottom: 20px;
+    }
+    .btn {
+      background: linear-gradient(90deg, #00ffff, #0077ff);
+      border: none;
+      color: #000;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+    .action-btn {
+      background: none;
+      border: 1px solid #00ffff;
+      color: #00ffff;
+      border-radius: 5px;
+      cursor: pointer;
+      padding: 5px 8px;
+      font-weight: bold;
+      transition: 0.3s;
+    }
+    .action-btn:hover {
+      background: #00ffff;
+      color: #000;
+    }
+  </style>
+</head>
+<body>
+  <h1>📅 Daily Progress Log</h1>
+  <table id="progressTable">
+    <tr>
+      <th>Date</th>
+      <th>Goal</th>
+      <th>Progress</th>
+      <th>Actions</th>
+    </tr>
+  </table>
+
+  <button class="btn" onclick="goBack()">⬅ Back to Dashboard</button>
+
+  <script>
+    const currentUser = JSON.parse(localStorage.getItem("currentUser")) || { email: "guest" };
+    const userEmail = currentUser.email;
+    const table = document.getElementById("progressTable");
+
+    function renderTable() {
+      table.innerHTML = `
+        <tr>
+          <th>Date</th>
+          <th>Goal</th>
+          <th>Progress</th>
+          <th>Actions</th>
+        </tr>
+      `;
+
+      Object.keys(localStorage).forEach(key => {
+        if (key.startsWith(`${userEmail}_progress_`)) {
+          const date = key.split("_progress_")[1];
+          const goals = JSON.parse(localStorage.getItem(key)) || [];
+
+          goals.forEach((g, index) => {
+            const row = document.createElement("tr");
+            row.innerHTML = `
+              <td>${date}</td>
+              <td>${g.name}</td>
+              <td>${g.progress}/${g.total}</td>
+              <td>
+                <button class="action-btn" onclick="deleteGoal('${date}', ${index})">🗑 Delete</button>
+              </td>
+            `;
+            table.appendChild(row);
+          });
+        }
+      });
+    }
+
+    function deleteGoal(date, index) {
+      if (!confirm("Are you sure you want to delete this goal?")) return;
+      const key = `${userEmail}_progress_${date}`;
+      let goals = JSON.parse(localStorage.getItem(key)) || [];
+
+      goals.splice(index, 1);
+
+      if (goals.length === 0) {
+        localStorage.removeItem(key);
+      } else {
+        localStorage.setItem(key, JSON.stringify(goals));
+      }
+
+      alert("🗑 Goal deleted successfully!");
+      renderTable();
+    }
+
+    function goBack() {
+      window.location.href = "dashboard.html";
+    }
+
+    renderTable();
+  </script>
+</body>
+</html>

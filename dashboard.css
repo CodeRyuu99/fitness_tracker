@@ -1,0 +1,145 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background-color: #0a0a0f;
+  color: #e0e0ff;
+  display: flex;
+}
+
+/* Sidebar */
+.sidebar {
+  width: 220px;
+  background: #141422;
+  padding: 20px;
+  height: 100vh;
+  box-shadow: 0 0 20px #00bfff33;
+  position: fixed;
+}
+
+.sidebar h2 {
+  color: #00bfff;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.sidebar nav a {
+  display: block;
+  color: #fff;
+  padding: 12px;
+  margin: 10px 0;
+  text-decoration: none;
+  border-radius: 10px;
+  transition: 0.3s;
+}
+
+.sidebar nav a:hover {
+  background: #00bfff33;
+  color: #00ffcc;
+}
+
+.sidebar-btn {
+  width: 100%;
+  padding: 12px;
+  margin-top: 20px;
+  border: none;
+  border-radius: 10px;
+  background: #00bfff;
+  color: #fff;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.3s;
+}
+
+.sidebar-btn:hover {
+  box-shadow: 0 0 20px #00bfff, 0 0 40px #00ffcc;
+}
+
+/* Main Content */
+.main-content {
+  margin-left: 240px;
+  padding: 40px;
+  width: 100%;
+}
+
+header h1 {
+  font-size: 2rem;
+  color: #00bfff;
+  text-shadow: 0 0 10px #00bfff;
+}
+
+/* Goal Section */
+.goal-section {
+  background: #1e1e2e;
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 0 20px #00bfff33;
+  margin-bottom: 40px;
+}
+
+.goal-section input {
+  padding: 12px;
+  margin: 10px 10px 10px 0;
+  border-radius: 10px;
+  border: none;
+  outline: none;
+  width: 200px;
+  background: #252535;
+  color: #fff;
+}
+
+.cta-btn {
+  padding: 12px 25px;
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(45deg, #00ffcc, #00bfff);
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 0 15px #00ffcc, 0 0 30px #00bfff;
+  transition: 0.3s;
+}
+
+.cta-btn:hover {
+  box-shadow: 0 0 25px #00ffcc, 0 0 50px #00bfff;
+  transform: scale(1.05);
+}
+
+/* Goal List */
+.goal-list-section {
+  background: #1e1e2e;
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 0 20px #00bfff33;
+}
+
+.goal-item {
+  background: #252535;
+  margin: 10px 0;
+  padding: 15px;
+  border-radius: 12px;
+  box-shadow: 0 0 10px #00bfff55;
+}
+
+.progress-bar {
+  height: 20px;
+  background-color: #00bfff44;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-top: 10px;
+}
+
+.progress {
+  height: 100%;
+  width: 0%;
+  background-color: #00ffcc;
+  border-radius: 10px;
+  transition: width 0.5s;
+  animation: bar-glow 2s infinite alternate;
+}
+
+@keyframes bar-glow {
+  0% { box-shadow: 0 0 5px #00ffcc, 0 0 10px #00bfff; }
+  100% { box-shadow: 0 0 15px #00ffcc, 0 0 30px #00bfff; }
+}

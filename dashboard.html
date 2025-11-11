@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Solo Leveling Quest Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: radial-gradient(circle at center, #021027, #000);
+      color: #cce8ff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .quest-box {
+      background: rgba(0, 20, 50, 0.9);
+      border: 1px solid #0ff;
+      border-radius: 12px;
+      box-shadow: 0 0 25px rgba(0, 255, 255, 0.3);
+      width: 550px;
+      padding: 25px;
+      position: relative;
+    }
+
+    .quest-header {
+      border-bottom: 1px solid #0ff;
+      padding-bottom: 10px;
+      text-align: center;
+    }
+
+    .quest-header h2 {
+      font-family: 'Orbitron', sans-serif;
+      color: #00ffff;
+      margin: 0;
+    }
+
+    .quest-body {
+      margin-top: 20px;
+      max-height: 330px;
+      overflow-y: auto;
+    }
+
+    .goal-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 12px 0;
+      font-size: 1rem;
+      color: #aef;
+      gap: 6px;
+    }
+
+    .goal-item input {
+      background: #012;
+      color: #0ff;
+      border: 1px solid #0ff;
+      border-radius: 4px;
+      text-align: center;
+      padding: 4px;
+    }
+
+    .goal-item input[type='text'] {
+      width: 120px;
+    }
+
+    .goal-item input[type='number'] {
+      width: 70px;
+    }
+
+    .delete-btn {
+      background: #ff4444;
+      border: none;
+      border-radius: 4px;
+      color: #fff;
+      cursor: pointer;
+      font-weight: bold;
+      padding: 4px 8px;
+      transition: 0.3s;
+    }
+
+    .delete-btn:hover {
+      background: #ff6666;
+    }
+
+    .progress-container {
+      width: 100%;
+      background: rgba(0, 255, 255, 0.1);
+      height: 10px;
+      border-radius: 5px;
+      margin-top: 8px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #00ffff, #0077ff);
+      width: 0%;
+      transition: width 0.3s ease;
+    }
+
+    .warning {
+      margin-top: 15px;
+      color: #ff4444;
+      font-size: 0.9rem;
+      text-align: center;
+    }
+
+    .level-up {
+      text-align: center;
+      margin-top: 15px;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.2rem;
+      color: #00ffcc;
+      display: none;
+      animation: glow 1.2s ease-in-out infinite alternate;
+    }
+
+    @keyframes glow {
+      from { text-shadow: 0 0 5px #0ff, 0 0 10px #00ccff; }
+      to { text-shadow: 0 0 20px #0ff, 0 0 40px #00ccff; }
+    }
+
+    .btn {
+      display: inline-block;
+      background: linear-gradient(90deg, #00ffff, #0077ff);
+      color: #000;
+      border: none;
+      border-radius: 6px;
+      padding: 10px 20px;
+      font-weight: bold;
+      cursor: pointer;
+      margin: 10px 5px;
+      transition: 0.3s;
+    }
+
+    .btn:hover {
+      opacity: 0.8;
+    }
+
+    .popup {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.7);
+      justify-content: center;
+      align-items: center;
+    }
+
+    .popup-content {
+      background: #021b35;
+      border: 1px solid #0ff;
+      border-radius: 12px;
+      padding: 20px;
+      width: 350px;
+      color: #fff;
+      text-align: center;
+      box-shadow: 0 0 25px rgba(0, 255, 255, 0.4);
+    }
+
+    input[type="text"], input[type="number"] {
+      margin: 8px 0;
+      padding: 8px;
+      width: 80%;
+      border: 1px solid #0ff;
+      border-radius: 6px;
+      background: #001020;
+      color: #0ff;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="quest-box">
+    <div class="quest-header">
+      <h2>⚔ QUEST INFO ⚔</h2>
+      <p>[Daily Quest: Strength Training has arrived.]</p>
+    </div>
+
+    <div class="quest-body" id="goals"></div>
+
+    <div class="level-up" id="levelUpMsg">LEVEL UP! 💥</div>
+
+    <button class="btn" onclick="saveGoals()">Save Progress</button>
+    <button class="btn" onclick="openPopup()">➕ Add Goal</button>
+    <button class="btn" onclick="goToProgress()">📅 View Daily Progress</button>
+
+    <p class="warning">⚠ Failure to complete the daily quest will result in a penalty.</p>
+  </div>
+
+  <!-- Add Goal Popup -->
+  <div class="popup" id="goalPopup">
+    <div class="popup-content">
+      <h3>📝 Add New Goal</h3>
+      <input type="text" id="goalName" placeholder="Goal name (e.g., Pull-ups)" />
+      <input type="number" id="goalTotal" placeholder="Total reps (e.g., 50)" />
+      <button class="btn" onclick="addGoal()">Add Goal</button>
+      <button class="btn" onclick="closePopup()">Cancel</button>
+    </div>
+  </div>
+
+  <script>
+    const defaultGoals = [
+      { name: "Push-ups", total: 100, progress: 0 },
+      { name: "Sit-ups", total: 100, progress: 0 },
+      { name: "Squats", total: 100, progress: 0 },
+      { name: "Running", total: 10, progress: 0, unit: "km" }
+    ];
+
+    const currentUser = JSON.parse(localStorage.getItem("currentUser")) || { email: "guest" };
+    const userEmail = currentUser.email;
+    let savedGoals = JSON.parse(localStorage.getItem(userEmail)) || defaultGoals;
+
+    function renderGoals() {
+      const goalsContainer = document.getElementById("goals");
+      goalsContainer.innerHTML = "";
+
+      savedGoals.forEach((goal, index) => {
+        const percent = Math.min((goal.progress / goal.total) * 100, 100);
+        const isComplete = goal.progress >= goal.total;
+
+        goalsContainer.innerHTML += `
+          <div class="goal-item">
+            <input type="text" id="goal-name-${index}" value="${goal.name}">
+            <input type="number" id="goal-progress-${index}" value="${goal.progress}" min="0">
+            <input type="number" id="goal-total-${index}" value="${goal.total}" min="1">
+            <span>${goal.unit || ''} ${isComplete ? '✅' : ''}</span>
+            <button class="delete-btn" onclick="deleteGoal(${index})">🗑</button>
+          </div>
+          <div class="progress-container">
+            <div class="progress-fill" style="width:${percent}%"></div>
+          </div>`;
+      });
+    }
+
+    function saveGoals() {
+      let allCompleted = true;
+
+      savedGoals.forEach((goal, index) => {
+        const nameInput = document.getElementById(`goal-name-${index}`);
+        const progressInput = document.getElementById(`goal-progress-${index}`);
+        const totalInput = document.getElementById(`goal-total-${index}`);
+
+        goal.name = nameInput.value || "Unnamed Goal";
+        goal.total = parseInt(totalInput.value) || 1;
+        goal.progress = parseInt(progressInput.value) || 0;
+
+        if (goal.progress < goal.total) allCompleted = false;
+      });
+
+      localStorage.setItem(userEmail, JSON.stringify(savedGoals));
+      localStorage.setItem(`${userEmail}_progress_${new Date().toLocaleDateString()}`, JSON.stringify(savedGoals));
+
+      renderGoals();
+
+      const levelUpMsg = document.getElementById("levelUpMsg");
+      levelUpMsg.style.display = allCompleted ? "block" : "none";
+    }
+
+    function deleteGoal(index) {
+      if (confirm("Delete this goal?")) {
+        savedGoals.splice(index, 1);
+        localStorage.setItem(userEmail, JSON.stringify(savedGoals));
+        renderGoals();
+      }
+    }
+
+    function openPopup() {
+      document.getElementById("goalPopup").style.display = "flex";
+    }
+
+    function closePopup() {
+      document.getElementById("goalPopup").style.display = "none";
+    }
+
+    function addGoal() {
+      const name = document.getElementById("goalName").value;
+      const total = parseInt(document.getElementById("goalTotal").value);
+      if (!name || !total) return alert("Enter valid goal details!");
+
+      savedGoals.push({ name, total, progress: 0 });
+      localStorage.setItem(userEmail, JSON.stringify(savedGoals));
+      renderGoals();
+      closePopup();
+    }
+
+    function goToProgress() {
+      window.location.href = "daily_progress.html";
+    }
+
+    renderGoals();
+  </script>
+</body>
+</html>
